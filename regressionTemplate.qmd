@@ -18,43 +18,41 @@ The data set used for this presentation is [Communities and Crime Unnormalized](
 
 ```{r, echo = FALSE}
 library(data.table)
-comm_crime <- fread("./DATA/CommViolPredUnnormalizedData.txt")
-# Note the columns are not labelled....must dig out information 
-COL_NAMES <- c("community_name", "state", "county_code", "community_code", "fold","population", "householdsize",
-               "racepctblack", "racepctwhite", "racepctasian", "racepcthisp", "agepct12t21", "agepct12t29", "agepct16t24", "agepct65up",
-               "numburban", "pcturban", "medincome", "pctwwage", "pctwfarmself",
-               "pctwinvinc", "pctwsocsec", "pctwpubasst", "pctwretire", "medfaminc",
-               "percapinc", "whitepercap", "blackpercap", "indianpercap", "asianpercap",
-               "otherpercap", "hisppercap", "numunderpov", "pctunderpov", "pctless9thgrade", "pctnothsgrad", "pctbsormore", "pctunemployed", "pctemploy", "pctmanemploy", "pctemplprofserv", "pctoccupmanu", "pctoccupmgmtprof", "malepctdivorce",
-               "malepctnevmarr", "femalepctdiv", "totalpctdiv", "persperfam", "pctfam2par", "pctkids2par", "pctyoungkids2par", "pctteen2par", "pctworkmomyoungkids",
-               "pctworkmom", "numkidsbornnevenmar", "pctkidsbornnevermar", "num_immig","pct_immig_recent", "pct_immig_rec5", "pct_immig_rec8", "pct_immig_rec10",
+# Note the columns are not labelled....must dig out information
+# missing values in the downloaded file are stored as "?"....must read in as NA
+COL_NAMES <- c("community_name", "state", "county_code", "community_code", "fold","population", "house_hold_size",
+               "race_pct_black", "race_pct_white", "race_pct_asian", "race_pct_hisp", "age_pct_12t21", "age_pct_12t29", "age_pct_16t24", "age_pct_65up",
+               "numb_urban", "pct_urban", "med_income", "pct_wwage", "pct_wfarmself",
+               "pct_winvinc", "pct_wsocsec", "pct_wpubasst", "pct_wretire", "med_fam_inc",
+               "per_cap_inc", "white_per_cap", "black_per_cap", "indian_per_cap", "asian_per_cap",
+               "other_per_cap", "hisp_per_cap", "num_under_pov", "pct_under_pov", "pct_less9thgrade", "pct_not_hsgrad", "pct_bs_ormore", "pct_unemployed", "pct_employ", "pct_man_employ", "pct_empl_profserv", "pct_occup_manu", "pct_occup_mgmtprof", "male_pct_divorce",
+               "male_pct_never_marr", "female_pct_div", "total_pct_div", "pers_per_fam", "pct_fam_2par", "pct_kids_2par", "pct_young_kids_2par", "pct_teen_2par", "pct_work_mom_youngkids",
+               "pct_workmom", "num_kids_born_never_mar", "pct_kids_born_never_mar", "num_immig","pct_immig_recent", "pct_immig_rec5", "pct_immig_rec8", "pct_immig_rec10",
                "pct_recent_immig", "pct_rec_immig5", "pct_rec_immig8", "pct_rec_immig10", "pct_speak_eng_only", "pct_not_speak_engl_well", "pct_large_house_fam", "pct_large_house_occup", "pers_per_occup_house",
                "pers_per_own_occup_house", "pers_per_rent_occup_house",
                "pct_pers_own_occup", "pct_pers_dense_house", "pct_house_less3br",
                "median_num_br", "house_vacant", "pct_house_occup", "pct_house_own_occup", "pct_vacant_boarded", "pct_vacant_more6mos",
                "med_year_house_built", "pct_house_no_phone", "pct_wo_full_plumb",
-               "own_occup_low_quart", "own_occup_median", "own_occup_hi_quart", "own_occ_range", "rent_q1", "rent_q2", "rent_q3", "rent_range", "med_rent", "med_rent_pct_house_inc", "med_own_cost_inc", "med_own_cost_pct_inc", "med_own_cost_pct_inc_no_mtg", "num_in_shelters", "num_in_street", "pct_foreign_born",
+               "own_occup_low_quart", "own_occup_median", "own_occup_hi_quart", "own_occ_range", "rent_q1", "rent_q2", "rent_q3", "rent_range", "med_rent", "med_rent_pct_house_inc", "med_own_cost_pct_inc", "med_own_cost_pct_inc_no_mtg", "num_in_shelters", "num_in_street", "pct_foreign_born",
                "pct_born_same_state", "pct_same_house85", "pct_same_city85", "pct_same_state85", "lemas_sworn_ft", "lemas_sw_ft_per_pop", "lemas_sw_ft_field_ops", "lemas_sw_ft_field_per_pop", "lemas_total_req", "lemas_total_req_per_pop", "police_req_per_offic", "police_per_pop", "racial_match_comm_pol", "pct_police_white",
                "pct_police_black", "pct_police_hisp", "pct_police_asian", "pct_police_minor", "office_assign_drug_units", "num_kinds_drugs_seized",
                "police_avg_ot_worked", "land_area", "pop_dens", "pct_use_pub_trans",
                "poice_cars", "police_oper_budg", "lemas_pct_police_on_ptrl", "lemas_gang_unit_deploy", "lemas_pct_officer_drug", "police_budg_per_pop", "murders_in_1995", "murders_per_pop", "rapes_in_1995", "rapes_per_pop", "robberies_in_1995", "robberies_per_pop", "assaults_in_1995", "assualts_per_pop", "burglaries_in_1995", "burglaries_per_pop", "larcenies_in_1995", "larcenies_per_pop", "auto_theft_in_1995", "auto_theft_per_pop", "arsons_in_1995", "arsons_per_pop", "violent_crimes_per_pop", "non_violent_crimes_per_pop")
+comm_crime <- fread("./DATA/CommViolPredUnnormalizedData.txt", col.names = COL_NAMES, na.strings = "?")
 ```
 
 
 
-## Bullets
-
-When you click the **Render** button a document will be generated that includes:
-
--   Content authored with markdown
--   Output from executable code
-
-## Code
-
-When you click the **Render** button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:
+## Model to predict violent crime per 100 K population
 
 ```{r}
-1 + 1
+library(MASS)
+null <- lm(violent_crimes_per_pop ~ 1, data = comm_crime[,-(1:5)])
+full <- lm(violent_crimes_per_pop ~ ., data = comm_crime[,-(1:5)])
+stepAIC(null, scope = list(lower = null, upper = full), direction = "forward") -> fwd_model
+fwd_model
+summary(fwd_model)
 ```
+
 
 ## References
