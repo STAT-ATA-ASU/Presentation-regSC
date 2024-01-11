@@ -46,13 +46,18 @@ comm_crime <- fread("./DATA/CommViolPredUnnormalizedData.txt", col.names = COL_N
 ## Model to predict violent crime per 100 K population
 
 ```{r}
+cleaned_stuff <- comm_crime[,-c(1:5, 130:145, 147)]
+cleaned_stuff <- na.omit(cleaned_stuff)
 library(MASS)
-null <- lm(violent_crimes_per_pop ~ 1, data = comm_crime[,-(1:5)])
-full <- lm(violent_crimes_per_pop ~ ., data = comm_crime[,-(1:5)])
+null <- lm(violent_crimes_per_pop ~ 1, data = cleaned_stuff)
+full <- lm(violent_crimes_per_pop ~ ., data = cleaned_stuff)
 stepAIC(null, scope = list(lower = null, upper = full), direction = "forward") -> fwd_model
-fwd_model
-summary(fwd_model)
 ```
 
+## Model to predict violent crime per 100 K population
+
+```{r}
+coef(fwd_model)
+```
 
 ## References
