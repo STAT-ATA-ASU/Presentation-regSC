@@ -11,6 +11,7 @@
   <meta name="generator" content="quarto-1.3.433">
 
   <meta name="author" content="Author 1, Author 2, Author 3">
+  <meta name="dcterms.date" content="2024-01-11">
   <title>Regression Template</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -29,7 +30,26 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
-  </style>
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
   <link rel="stylesheet" href="regressionTemplate_files/libs/revealjs/dist/theme/quarto.css">
   <link href="regressionTemplate_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="regressionTemplate_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
@@ -332,13 +352,17 @@
 <div class="quarto-title-author-name">
 Author 1, Author 2, Author 3 
 </div>
-</div>
+        <p class="quarto-title-affiliation">
+            Appalachian State Univeristy
+          </p>
+    </div>
 </div>
 
+  <p class="date">January 11, 2024</p>
 </section>
-<section id="quarto" class="slide level2">
-<h2>Quarto</h2>
-<p>Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <a href="https://quarto.org/docs/presentations/" class="uri">https://quarto.org/docs/presentations/</a>.</p>
+<section id="data-set-and-background" class="slide level2">
+<h2>Data Set and Background</h2>
+<p>The data set used for this presentation is <a href="https://archive.ics.uci.edu/dataset/211/communities+and+crime+unnormalized">Communities and Crime Unnormalized</a> contributed by <span class="citation" data-cites="misc_communities_and_crime_unnormalized_211">Redmond (<a href="#/references" role="doc-biblioref" onclick="">2011</a>)</span></p>
 </section>
 <section id="bullets" class="slide level2">
 <h2>Bullets</h2>
@@ -356,8 +380,16 @@ Author 1, Author 2, Author 3
 <pre><code>[1] 2</code></pre>
 </div>
 </div>
+</section>
+<section id="references" class="slide level2 smaller scrollable">
+<h2>References</h2>
 <div class="footer footer-default">
 
+</div>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-misc_communities_and_crime_unnormalized_211" class="csl-entry" role="listitem">
+Redmond, Michael. 2011. <span>“<span class="nocase">Communities and Crime Unnormalized</span>.”</span> UCI Machine Learning Repository.
+</div>
 </div>
 </section>
     </div>
