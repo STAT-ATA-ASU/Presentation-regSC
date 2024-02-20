@@ -6,8 +6,8 @@ date: last-modified
 date-format: "MMMM DD, YYYY"
 format:
   revealjs:
-    theme: sky
-editor: visual
+    theme: blood
+editor: source
 bibliography: citations.bib
 ---
 
@@ -15,6 +15,8 @@ bibliography: citations.bib
 
 The data set used for this presentation is [Communities and Crime Unnormalized](https://archive.ics.uci.edu/dataset/211/communities+and+crime+unnormalized) contributed by @misc_communities_and_crime_unnormalized_211
 
+-   What are you trying to predict?
+-   What is interesting/challenging about the data set?
 
 ```{r, echo = FALSE}
 library(data.table)
@@ -39,25 +41,43 @@ COL_NAMES <- c("community_name", "state", "county_code", "community_code", "fold
                "police_avg_ot_worked", "land_area", "pop_dens", "pct_use_pub_trans",
                "poice_cars", "police_oper_budg", "lemas_pct_police_on_ptrl", "lemas_gang_unit_deploy", "lemas_pct_officer_drug", "police_budg_per_pop", "murders_in_1995", "murders_per_pop", "rapes_in_1995", "rapes_per_pop", "robberies_in_1995", "robberies_per_pop", "assaults_in_1995", "assualts_per_pop", "burglaries_in_1995", "burglaries_per_pop", "larcenies_in_1995", "larcenies_per_pop", "auto_theft_in_1995", "auto_theft_per_pop", "arsons_in_1995", "arsons_per_pop", "violent_crimes_per_pop", "non_violent_crimes_per_pop")
 comm_crime <- fread("./DATA/CommViolPredUnnormalizedData.txt", col.names = COL_NAMES, na.strings = "?")
+cleaned_stuff <- comm_crime[,-c(1:5, 130:145, 147)]
+cleaned_stuff <- na.omit(cleaned_stuff) # Not appropriate in this scenario...
+# Make testing and training sets
+# See how well chosen models work on testing set
 ```
 
-
-
-## Model to predict violent crime per 100 K population
-
-```{r}
-cleaned_stuff <- comm_crime[,-c(1:5, 130:145, 147)]
-cleaned_stuff <- na.omit(cleaned_stuff)
+```{r, echo = FALSE, results = FALSE}
+# Forward Model
 library(MASS)
 null <- lm(violent_crimes_per_pop ~ 1, data = cleaned_stuff)
 full <- lm(violent_crimes_per_pop ~ ., data = cleaned_stuff)
 stepAIC(null, scope = list(lower = null, upper = full), direction = "forward") -> fwd_model
+# Backward Model
+stepAIC(full, scope = list(lower = null, upper = full), direction = "backward") -> bwd_model
 ```
 
-## Model to predict violent crime per 100 K population
+## Model to predict violent crime per 100 K population - Backward
 
 ```{r}
-coef(fwd_model)
+coef(bwd_model)
 ```
+
+## Residuals
+
+```{r, echo = FALSE}
+plot(bwd_model, which = 1)
+```
+
+## Relevant Points
+
+-   Point 1
+-   Point 2
+-   Point 3
+
+## Conclusions/Predictions
+
+-   There is more behind the scenes than shown on the slides!
+-   Have fun and practice!
 
 ## References
